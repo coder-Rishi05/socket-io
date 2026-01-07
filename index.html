@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+
+</head>
+
+<body>
+    <p>Hello world</p>
+
+    <script>
+        const socket = io("http://localhost:3001");
+
+        // socket.on("connect", () => {
+        //     console.log("Connected to server");
+        //     // event catch krne ke liye
+        //     socket.on('message', function (data) {
+        //         document.writeln(data)
+        //     })
+
+        //     socket.on('myCustomEvt', (data) => { document.writeln(data.message) })
+        // });
+        
+
+    socket.emit("myCustomEvt", {
+      message: "my custom message from client side.",
+    });
+//   }, 4000);
+    </script>
+
+</body>
+
+</html>
