@@ -14,21 +14,14 @@
 
     <script>
         const socket = io("http://localhost:3001");
+        socket.on('broadcast',(data)=>{
+            document.body.innerHTML = '';
+            document.writeln(data.message)
+        })
 
-        // socket.on("connect", () => {
-        //     console.log("Connected to server");
-        //     // event catch krne ke liye
-        //     socket.on('message', function (data) {
-        //         document.writeln(data)
-        //     })
-
-        //     socket.on('myCustomEvt', (data) => { document.writeln(data.message) })
-        // });
-        
-
-    socket.emit("myCustomEvt", {
-      message: "my custom message from client side.",
-    });
+    // socket.emit("myCustomEvt", {
+    //   message: "my custom message from client side.",
+    // });
 //   }, 4000);
     </script>
 

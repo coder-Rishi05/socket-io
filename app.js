@@ -17,12 +17,20 @@ app.get("/", (req, res) => {
   res.sendFile(filename, option);
 });
 
-io.on("connection", function (socket) {
+var users = 0;
+
+io.on("connection", function (sockets) {
   console.log("A user connected");
+  users++;
+  //   emit ke baad event ka name dete han jo ki fix nhi hai kuch bhi meaning ful ho skta hai
+  io.sockets.emit("broadcast", { message: "users connected", users });
 
-  socket.on("myCustomEvt", (data) => console.log(data.message));
+  //   sockets.on("myCustomEvt", (data) => console.log(data.message));
 
-  socket.on("disconnect", () => {
+  sockets.on("disconnect", () => {
+    users--;
+    io.sockets.emit("broadcast", { message: users + "users disconnected" });
+
     console.log("A user disconnected");
   });
 });
