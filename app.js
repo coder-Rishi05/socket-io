@@ -17,28 +17,18 @@ app.get("/", (req, res) => {
   res.sendFile(filename, option);
 });
 
-var users = 0;
+// this is my custom event
+// we can create multiple chats connecton throgh this
+let cnsp = io.of("/custom-namespace");
+let cnsp1 = io.of("/custom-namespace");
 
-io.on("connection", function (socket) {
+cnsp.on("connection", function (socket) {
   console.log("A user connected");
-  users++;
-  //   emit ke baad event ka name dete han jo ki fix nhi hai kuch bhi meaning ful ho skta hai
-  // ye new users ko message krega
-  socket.emit("newUserconnect", { message: "Welcome new user" });
 
-  //   socket.on("myCustomEvt", (data) => console.log(data.message));
-
-  // ye sirf connected users ko message dega
-  socket.broadcast.emit("newUserconnect", { message: users + "connected" });
-  io.sockets.emit("messagetoall", { message: "hello everone " });
+  cnsp.emit("customEvent", { message: "Tester event call" });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    users--;
-    // ye io.sockets sbhi users ko message dega.
-    socket.broadcast.emit("newUserconnect", {
-      message: users + "users connected",
-    });
   });
 });
 
