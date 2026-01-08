@@ -17,15 +17,31 @@ app.get("/", (req, res) => {
   res.sendFile(filename, option);
 });
 
-// this is my custom event
-// we can create multiple chats connecton throgh this
-let cnsp = io.of("/custom-namespace");
-let cnsp1 = io.of("/custom-namespace");
+// creating rooms
 
-cnsp.on("connection", function (socket) {
+// let cnsp = io.of("/custom-namespace");
+// let cnsp1 = io.of("/custom-namespace");
+
+var room = 1;
+var full = 0;
+
+io.on("connection", function (socket) {
   console.log("A user connected");
 
-  cnsp.emit("customEvent", { message: "Tester event call" });
+  // creating channel / rom
+  socket.join("room-" + room);
+
+  io.sockets
+    .in("room-" + room)
+    .emit("connectedRoom", "You are connected to room no : " + room);
+
+  full++;
+  if (full >= 2) {
+    full = 0;
+    room++;
+  }
+
+  // cnsp.emit("customEvent", { message: "Tester event call" });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");

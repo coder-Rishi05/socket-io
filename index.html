@@ -13,10 +13,16 @@
     <p>Hello world</p>
 
     <script>
-        const socket = io("http://localhost:3001/custom-namespace");
-        socket.on('customEvent', (data) => {
+        const socket = io("http://localhost:3001/");
+        socket.on('connect_failed',function(){
+            alert('connection failede')
+        })
+        socket.on('reconnect',function(){
+            alert('reconnect failed')
+        })
+        socket.on('connectedRoom', (data) => {
             document.body.innerHTML = '';
-            document.writeln(data.message)
+            document.writeln(data)
         })
 
     </script>
