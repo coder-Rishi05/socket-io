@@ -14,15 +14,19 @@
 
     <script>
         const socket = io("http://localhost:3001");
-        socket.on('broadcast',(data)=>{
+        socket.on('newUserconnect', (data) => {
             document.body.innerHTML = '';
             document.writeln(data.message)
         })
+        socket.on('messagetoall', (data) => {
+            // document.body.innerHTML = '';
+            document.writeln(data.message)
+        })
 
-    // socket.emit("myCustomEvt", {
-    //   message: "my custom message from client side.",
-    // });
-//   }, 4000);
+        // socket.emit("myCustomEvt", {
+        //   message: "my custom message from client side.",
+        // });
+        //   }, 4000);
     </script>
 
 </body>

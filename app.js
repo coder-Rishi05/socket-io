@@ -19,19 +19,26 @@ app.get("/", (req, res) => {
 
 var users = 0;
 
-io.on("connection", function (sockets) {
+io.on("connection", function (socket) {
   console.log("A user connected");
   users++;
   //   emit ke baad event ka name dete han jo ki fix nhi hai kuch bhi meaning ful ho skta hai
-  io.sockets.emit("broadcast", { message: "users connected", users });
+  // ye new users ko message krega
+  socket.emit("newUserconnect", { message: "Welcome new user" });
 
-  //   sockets.on("myCustomEvt", (data) => console.log(data.message));
+  //   socket.on("myCustomEvt", (data) => console.log(data.message));
 
-  sockets.on("disconnect", () => {
-    users--;
-    io.sockets.emit("broadcast", { message: users + "users disconnected" });
+  // ye sirf connected users ko message dega
+  socket.broadcast.emit("newUserconnect", { message: users + "connected" });
+  io.sockets.emit("messagetoall", { message: "hello everone " });
 
+  socket.on("disconnect", () => {
     console.log("A user disconnected");
+    users--;
+    // ye io.sockets sbhi users ko message dega.
+    socket.broadcast.emit("newUserconnect", {
+      message: users + "users connected",
+    });
   });
 });
 
